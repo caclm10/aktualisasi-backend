@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Enums\ActivityCategory;
 use App\Traits\HasNanoID;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,6 +21,8 @@ class Activity extends Model
 
     protected $casts = [
         "properties" => "array",
+
+        "category" => ActivityCategory::class,
     ];
 
     public function user(): BelongsTo
