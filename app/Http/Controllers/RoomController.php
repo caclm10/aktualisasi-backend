@@ -53,6 +53,25 @@ class RoomController extends Controller
     }
 
     /**
+     * Menampilkan detail ruangan.
+     *
+     * Mendapatkan informasi lengkap dari satu ruangan berdasarkan ID.
+     */
+    public function show(Office $office, Room $room): JsonResponse
+    {
+        if ($room->office_id !== $office->id) {
+            abort(404, "Ruangan tidak ditemukan di kantor ini.");
+        }
+
+        $room->load("office");
+
+        return $this->json(
+            data: new RoomResource($room),
+            message: "Room fetched successfully.",
+        );
+    }
+
+    /**
      * Memperbarui data ruangan.
      *
      * Mengubah informasi ruangan yang sudah ada berdasarkan ID.

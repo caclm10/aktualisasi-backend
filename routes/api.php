@@ -49,6 +49,7 @@ Route::middleware(["auth:sanctum"])->group(function () {
     Route::resource("offices.rooms", RoomController::class)->only([
         "index",
         "store",
+        "show",
         "update",
         "destroy",
     ]);
