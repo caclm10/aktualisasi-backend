@@ -12,22 +12,22 @@ Repositori Backend API untuk aktualisasi dari aplikasi manajemen aset perangkat 
 
 ## 🚀 Fitur Utama
 
--   **Otentikasi Aman**: Menggunakan **Laravel Sanctum** untuk keamanan akses API.
-    -   _Keuntungan:_ URL sulit ditebak (mencegah _Enumeration Attack_), lebih aman, dan siap untuk skalabilitas horizontal.
--   **Audit Trail**:
-    -   **Journey Logs**: Mencatat riwayat mutasi/perpindahan aset antar ruangan.
-    -   **Maintenance Logs**: Mencatat riwayat teknis (Update OS, Perbaikan).
--   **Manajemen Aset**: Mengelola aset dan status aset mulai dari Pengadaan (_Procurement_) hingga Penghapusan (_Disposal_).
--   **Dokumentasi API Otomatis**: Tersedia dokumentasi OpenAPI/Swagger yang digenerate otomatis menggunakan **Dedoc Scramble**.
+- **Otentikasi Aman**: Menggunakan **Laravel Sanctum** untuk keamanan akses API.
+    - _Keuntungan:_ URL sulit ditebak (mencegah _Enumeration Attack_), lebih aman, dan siap untuk skalabilitas horizontal.
+- **Audit Trail**:
+    - **Journey Logs**: Mencatat riwayat mutasi/perpindahan aset antar ruangan.
+    - **Maintenance Logs**: Mencatat riwayat teknis (Update OS, Perbaikan).
+- **Manajemen Aset**: Mengelola aset dan status aset mulai dari Pengadaan (_Procurement_) hingga Penghapusan (_Disposal_).
+- **Dokumentasi API Otomatis**: Tersedia dokumentasi OpenAPI/Swagger yang digenerate otomatis menggunakan **Dedoc Scramble**.
 
 ---
 
 ## 🛠️ Teknologi yang Digunakan
 
--   **Framework**: Laravel 12
--   **Database**: MySQL 5.7+ / MariaDB 10.2+
--   **Library ID**: `hidehalo/nanoid-php`
--   **Penyimpanan**: Local Storage (untuk Gambar Aset)
+- **Framework**: Laravel 12
+- **Database**: MySQL 5.7+ / MariaDB 10.2+
+- **Library ID**: `hidehalo/nanoid-php`
+- **Penyimpanan**: Local Storage (untuk Gambar Aset)
 
 ---
 
@@ -35,9 +35,9 @@ Repositori Backend API untuk aktualisasi dari aplikasi manajemen aset perangkat 
 
 ### Prasyarat
 
--   PHP >= 8.2
--   Composer
--   MySQL atau MariaDB
+- PHP >= 8.2
+- Composer
+- MySQL atau MariaDB
 
 ### 1. Clone Repositori
 
@@ -105,11 +105,17 @@ php artisan serve
 
 Aplikasi backend akan berjalan di `http://localhost:8000`
 
-## 📖 Fitur Unggulan
+## 📖 Dokumentasi API
 
-Proyek ini menggunakan Scramble untuk men-generate dokumentasi API secara otomatis (tanpa perlu menulis anotasi manual). Setelah server berjalan, akses dokumentasi lengkap di:
+Proyek ini menggunakan **[Dedoc Scramble](https://scramble.dedoc.co/)** untuk men-generate dokumentasi API secara otomatis (tanpa perlu menulis anotasi manual).
 
-👉 `http://localhost:8000/docs/api`
+Setelah server berjalan, akses dokumentasi lengkap di:
+
+```
+http://localhost:8000/docs/api
+```
+
+> **Note:** Dokumentasi akan otomatis di-update setiap kali ada perubahan pada controller.
 
 ## 🧩 Sorotan Teknis (Technical Highlights)
 
@@ -131,7 +137,7 @@ Tabel maintenance_logs menggunakan pendekatan hibrida. Data inti (User, Aset, Lo
 Tabel maintenance_logs menggunakan pendekatan hibrida. Data inti (User, Aset, Lokasi) disimpan secara relasional (SQL), sedangkan data detail yang dinamis disimpan dalam format JSON:
 
 ```sql
-`category` ENUM('perjalanan', 'maintenance')
+`category` ENUM('perjalanan', 'pemeliharaan')
 `properties` JSON -- Menyimpan { "old_os": "v1.0", "new_os": "v2.0" }
 Pendekatan ini memungkinkan sistem mencatat atribut log yang berbeda-beda (misal: log mutasi vs log update firmware) dalam satu tabel yang sama secara efisien.
 ```
