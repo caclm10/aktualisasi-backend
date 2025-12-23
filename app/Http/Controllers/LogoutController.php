@@ -10,6 +10,11 @@ class LogoutController extends Controller
 {
     use ApiResponse;
 
+    /**
+     * Logout.
+     *
+     * Mengakhiri sesi user yang sedang login dan menghapus token autentikasi.
+     */
     public function __invoke(Request $request): JsonResponse
     {
         \Auth::logout();

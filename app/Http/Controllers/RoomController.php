@@ -15,6 +15,11 @@ class RoomController extends Controller
 {
     use ApiResponse;
 
+    /**
+     * Menampilkan daftar ruangan.
+     *
+     * Mendapatkan daftar semua ruangan dalam satu kantor.
+     */
     public function index(Office $office): JsonResponse
     {
         $office->load("rooms");
@@ -25,6 +30,11 @@ class RoomController extends Controller
         );
     }
 
+    /**
+     * Menyimpan ruangan baru.
+     *
+     * Membuat data ruangan baru dalam kantor yang ditentukan.
+     */
     public function store(Request $request, Office $office): JsonResponse
     {
         $validated = $request->validate([
@@ -42,6 +52,11 @@ class RoomController extends Controller
         );
     }
 
+    /**
+     * Memperbarui data ruangan.
+     *
+     * Mengubah informasi ruangan yang sudah ada berdasarkan ID.
+     */
     public function update(
         Request $request,
         Office $office,
@@ -70,6 +85,11 @@ class RoomController extends Controller
         );
     }
 
+    /**
+     * Menghapus ruangan.
+     *
+     * Menghapus ruangan dari kantor
+     */
     public function destroy(Office $office, Room $room): JsonResponse
     {
         if ($room->office_id !== $office->id) {

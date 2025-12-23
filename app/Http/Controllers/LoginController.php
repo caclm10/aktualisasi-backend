@@ -12,6 +12,12 @@ class LoginController extends Controller
 {
     use ApiResponse;
 
+    /**
+     * Login.
+     *
+     * Melakukan autentikasi user dengan email dan password.
+     * Mengembalikan data user jika berhasil login.
+     */
     public function __invoke(Request $request): JsonResponse
     {
         $validated = $request->validate([

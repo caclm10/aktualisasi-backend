@@ -16,6 +16,12 @@ class ActivityController extends Controller
 {
     use ApiResponse;
 
+    /**
+     * Menampilkan daftar aktivitas.
+     *
+     * Mendapatkan daftar semua aktivitas dengan fitur pencarian dan filter.
+     * Mendukung filter berdasarkan kategori, aset, ruangan, dan user.
+     */
     public function index(Request $request): JsonResponse
     {
         $query = Activity::with(["user", "asset", "room.office"]);
@@ -63,6 +69,12 @@ class ActivityController extends Controller
         );
     }
 
+    /**
+     * Menyimpan aktivitas baru.
+     *
+     * Membuat data aktivitas baru. Jika kategori adalah "perjalanan" (mutasi),
+     * lokasi aset akan otomatis diperbarui ke ruangan tujuan.
+     */
     public function store(ActivityRequest $request): JsonResponse
     {
         $validated = $request->validated();
@@ -108,6 +120,11 @@ class ActivityController extends Controller
         );
     }
 
+    /**
+     * Menampilkan detail aktivitas.
+     *
+     * Mendapatkan informasi lengkap dari satu aktivitas berdasarkan ID.
+     */
     public function show(Activity $activity): JsonResponse
     {
         $activity->load(["user", "asset", "room.office"]);
@@ -118,6 +135,11 @@ class ActivityController extends Controller
         );
     }
 
+    /**
+     * Memperbarui data aktivitas.
+     *
+     * Mengubah informasi aktivitas yang sudah ada berdasarkan ID.
+     */
     public function update(
         ActivityRequest $request,
         Activity $activity,
@@ -154,6 +176,11 @@ class ActivityController extends Controller
         );
     }
 
+    /**
+     * Menghapus aktivitas.
+     *
+     * Menghapus data aktivitas dari sistem.
+     */
     public function destroy(Activity $activity): JsonResponse
     {
         $activity->delete();

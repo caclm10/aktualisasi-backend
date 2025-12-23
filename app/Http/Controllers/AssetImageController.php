@@ -12,6 +12,12 @@ class AssetImageController extends Controller
 {
     use ApiResponse;
 
+    /**
+     * Memperbarui gambar aset.
+     *
+     * Mengunggah atau mengganti gambar aset. Gambar lama akan dihapus otomatis.
+     * Format yang didukung: jpeg, png, jpg, webp. Maksimal ukuran 2MB.
+     */
     public function update(Request $request, Asset $asset): JsonResponse
     {
         $request->validate([
@@ -43,6 +49,11 @@ class AssetImageController extends Controller
         );
     }
 
+    /**
+     * Menghapus gambar aset.
+     *
+     * Menghapus file gambar aset dari storage dan mengosongkan URL gambar.
+     */
     public function destroy(Asset $asset): JsonResponse
     {
         if (!$asset->image_url) {

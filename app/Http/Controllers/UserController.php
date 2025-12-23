@@ -11,6 +11,11 @@ class UserController extends Controller
 {
     use ApiResponse;
 
+    /**
+     * Mendapatkan data user yang sedang login.
+     *
+     * Mengembalikan informasi profil user yang terautentikasi.
+     */
     public function index(Request $request): JsonResponse
     {
         return $this->json(

@@ -12,6 +12,11 @@ class OfficeController extends Controller
 {
     use ApiResponse;
 
+    /**
+     * Menampilkan daftar kantor.
+     *
+     * Mendapatkan daftar semua kantor yang terdaftar.
+     */
     public function index(): JsonResponse
     {
         $offices = Office::all();
@@ -22,6 +27,11 @@ class OfficeController extends Controller
         );
     }
 
+    /**
+     * Menampilkan detail kantor.
+     *
+     * Mendapatkan informasi lengkap dari satu kantor beserta daftar ruangannya.
+     */
     public function show(Office $office): JsonResponse
     {
         $office->load("rooms");
@@ -32,6 +42,11 @@ class OfficeController extends Controller
         );
     }
 
+    /**
+     * Menyimpan kantor baru.
+     *
+     * Membuat data kantor baru dengan informasi PIC (Person In Charge).
+     */
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -54,6 +69,11 @@ class OfficeController extends Controller
         );
     }
 
+    /**
+     * Memperbarui data kantor.
+     *
+     * Mengubah informasi kantor yang sudah ada berdasarkan ID.
+     */
     public function update(Request $request, Office $office): JsonResponse
     {
         $validated = $request->validate([
@@ -75,13 +95,18 @@ class OfficeController extends Controller
         );
     }
 
+    /**
+     * Menghapus kantor.
+     *
+     * Menghapus kantor beserta semua ruangan di dalamnya
+     */
     public function destroy(Office $office): JsonResponse
     {
         \DB::transaction(function () use ($office) {
-            // A. Hapus semua ruangan di kantor ini (Soft Delete)
+            // A. Hapus semua ruangan di kantor ini
             $office->rooms()->delete();
 
-            // B. Hapus kantornya sendiri (Soft Delete)
+            // B. Hapus kantornya sendiri
             $office->delete();
         });
 

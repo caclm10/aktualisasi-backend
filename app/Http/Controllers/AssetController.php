@@ -15,7 +15,10 @@ class AssetController extends Controller
     use ApiResponse;
 
     /**
-     * Display a listing of assets with pagination and search.
+     * Menampilkan daftar aset.
+     *
+     * Mendapatkan daftar semua aset dengan fitur pencarian dan filter.
+     * Mendukung filter berdasarkan ruangan, kondisi, dan status deployment.
      */
     public function index(Request $request): JsonResponse
     {
@@ -65,7 +68,9 @@ class AssetController extends Controller
     }
 
     /**
-     * Store a newly created asset.
+     * Menyimpan aset baru.
+     *
+     * Membuat data aset baru dan menyimpannya ke database.
      */
     public function store(AssetRequest $request): JsonResponse
     {
@@ -86,7 +91,9 @@ class AssetController extends Controller
     }
 
     /**
-     * Display the specified asset.
+     * Menampilkan detail aset.
+     *
+     * Mendapatkan informasi lengkap dari satu aset berdasarkan ID.
      */
     public function show(Asset $asset): JsonResponse
     {
@@ -99,7 +106,9 @@ class AssetController extends Controller
     }
 
     /**
-     * Update the specified asset.
+     * Memperbarui data aset.
+     *
+     * Mengubah informasi aset yang sudah ada berdasarkan ID.
      */
     public function update(AssetRequest $request, Asset $asset): JsonResponse
     {
@@ -127,7 +136,9 @@ class AssetController extends Controller
     }
 
     /**
-     * Remove the specified asset (soft delete).
+     * Menghapus aset.
+     *
+     * Menghapus aset dari sistem (soft delete).
      */
     public function destroy(Asset $asset): JsonResponse
     {
