@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\AssetComplianceStatus;
+use App\Models\Enums\AssetComplianceStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -66,13 +66,15 @@ class AssetRequest extends FormRequest
             "model" => ["required", "string", "max:255"],
             "room" => ["required", "exists:rooms,id"],
             "condition" => ["required", "string", "max:255"],
-            "deploymentStatus" => ["required", "string", "max:255"],
             "ipVlan" => ["nullable", "string", "max:255"],
             "vlan" => ["nullable", "string", "max:255"],
             "portCapacity" => ["nullable", "string", "max:255"],
             "portTrunk" => ["nullable", "string", "max:255"],
             "osVersion" => ["nullable", "string", "max:255"],
-            "compliance_status" => [Rule::enum(AssetComplianceStatus::class)],
+            "complianceStatus" => [
+                "nullable",
+                Rule::enum(AssetComplianceStatus::class),
+            ],
             "eosDate" => ["nullable", "date"],
             "purchaseYear" => [
                 "nullable",

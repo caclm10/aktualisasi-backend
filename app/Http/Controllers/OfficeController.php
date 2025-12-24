@@ -19,7 +19,7 @@ class OfficeController extends Controller
      */
     public function index(): JsonResponse
     {
-        $offices = Office::all();
+        $offices = Office::with("rooms")->get();
 
         return $this->json(
             data: OfficeResource::collection($offices),

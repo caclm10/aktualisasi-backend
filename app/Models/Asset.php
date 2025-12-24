@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\AssetComplianceStatus;
+use App\Models\Enums\AssetComplianceStatus;
 use App\Models\Enums\AssetCondition;
 use App\Traits\HasNanoID;
 use Illuminate\Database\Eloquent\Model;
