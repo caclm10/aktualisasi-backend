@@ -46,6 +46,8 @@ class AssetResource extends JsonResource
                 : null,
             "purchaseYear" => $this->purchase_year,
 
+            "imageUrl" => $this->image_url,
+
             "createdAt" => \Date::parse($this->created_at)->toIso8601String(),
             "updatedAt" => \Date::parse($this->updated_at)->toIso8601String(),
             "deletedAt" => $this->deleted_at
