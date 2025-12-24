@@ -68,6 +68,7 @@ class AssetRequest extends FormRequest
             "condition" => ["required", "string", "max:255"],
             "ipVlan" => ["nullable", "string", "max:255"],
             "vlan" => ["nullable", "string", "max:255"],
+            "portAcsVlan" => ["nullable", "string", "max:255"],
             "portCapacity" => ["nullable", "string", "max:255"],
             "portTrunk" => ["nullable", "string", "max:255"],
             "osVersion" => ["nullable", "string", "max:255"],

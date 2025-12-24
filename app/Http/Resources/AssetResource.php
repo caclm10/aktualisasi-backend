@@ -18,6 +18,7 @@ class AssetResource extends JsonResource
             "id" => $this->id,
 
             // Konversi snake_case (DB) ke camelCase (TS)
+            "registerCode" => $this->register_code,
             "serialNumber" => $this->serial_number,
             "hostname" => $this->hostname,
             "brand" => $this->brand,
@@ -32,6 +33,8 @@ class AssetResource extends JsonResource
 
             "condition" => $this->condition,
             "ipVlan" => $this->ip_vlan,
+            "vlan" => $this->vlan,
+            "portAcsVlan" => $this->port_acs_vlan,
             "portCapacity" => $this->port_capacity,
             "portTrunk" => $this->port_trunk,
             "osVersion" => $this->os_version,
