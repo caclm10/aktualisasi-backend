@@ -45,11 +45,6 @@ class AssetController extends Controller
             $query->where("condition", $condition);
         }
 
-        // Filter by deployment status
-        if ($deploymentStatus = $request->input("deployment_status")) {
-            $query->where("deployment_status", $deploymentStatus);
-        }
-
         // Sorting
         $sortBy = $request->input("sort_by", "created_at");
         $sortOrder = $request->input("sort_order", "desc");
@@ -153,7 +148,6 @@ class AssetController extends Controller
             ...$data,
             "register_code" => $data["registerCode"],
             "serial_number" => $data["serialNumber"],
-            "deployment_status" => $data["deploymentStatus"],
             "ip_vlan" => $data["ipVlan"],
             "port_capacity" => $data["portCapacity"],
             "port_trunk" => $data["portTrunk"],

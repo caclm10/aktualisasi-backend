@@ -28,13 +28,6 @@ return new class extends Migration {
             $table
                 ->enum("condition", ["baik", "rusak", "rusak berat"])
                 ->default("baik");
-            $table
-                ->enum("deployment_status", [
-                    "in stock",
-                    "deployed",
-                    "maintenance",
-                ])
-                ->default("in stock");
 
             // Network
             $table->string("ip_vlan")->nullable();

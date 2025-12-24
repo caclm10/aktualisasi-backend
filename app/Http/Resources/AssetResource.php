@@ -31,7 +31,6 @@ class AssetResource extends JsonResource
             "room" => new RoomResource($this->whenLoaded("room")),
 
             "condition" => $this->condition,
-            "deploymentStatus" => $this->deployment_status,
             "ipVlan" => $this->ip_vlan,
             "portCapacity" => $this->port_capacity,
             "portTrunk" => $this->port_trunk,

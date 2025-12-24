@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\AssetComplianceStatus;
 use App\Models\Enums\AssetCondition;
-use App\Models\Enums\AssetDeploymentStatus;
 use App\Traits\HasNanoID;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,7 +21,6 @@ class Asset extends Model
         "model",
 
         "condition",
-        "deployment_status",
 
         "ip_vlan",
         "vlan",
@@ -43,7 +41,6 @@ class Asset extends Model
 
     protected $casts = [
         "condition" => AssetCondition::class,
-        "deployment_status" => AssetDeploymentStatus::class,
         "compliance_status" => AssetComplianceStatus::class,
     ];
 
