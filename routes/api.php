@@ -5,6 +5,7 @@ use App\Http\Controllers\AssetActivityController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AssetImageController;
 use App\Http\Controllers\AssetMaintenanceController;
+use App\Http\Controllers\AssetMutationController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
@@ -40,6 +41,8 @@ Route::middleware(["auth:sanctum"])->group(function () {
         "assets/{asset}/maintenance",
         AssetMaintenanceController::class,
     );
+
+    Route::post("assets/{asset}/mutation", AssetMutationController::class);
 
     // Activity Routes
     Route::apiResource("activities", ActivityController::class)->only([
