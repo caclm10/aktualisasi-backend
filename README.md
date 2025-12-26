@@ -116,28 +116,3 @@ http://localhost:8000/docs/api
 ```
 
 > **Note:** Dokumentasi akan otomatis di-update setiap kali ada perubahan pada controller.
-
-## 🧩 Sorotan Teknis (Technical Highlights)
-
-Bagian ini menjelaskan implementasi teknis khusus yang diterapkan dalam sistem:
-
-### 1. Implementasi NanoID via Macro
-
-Sistem menggunakan Custom Macro pada AppServiceProvider untuk memudahkan pembuatan kolom ID dan Foreign Key bertipe Char(21):
-
-```php
-// Contoh penggunaan di file migrasi
-$table->nanoid(); // Membuat Primary Key CHAR(21)
-$table->foreignNanoid('office_id'); // Membuat Foreign Key CHAR(21) 2. Hybrid JSON Logging
-Tabel maintenance_logs menggunakan pendekatan hibrida. Data inti (User, Aset, Lokasi) disimpan secara relasional (SQL), sedangkan data detail yang dinamis disimpan dalam format JSON:
-```
-
-### 2. Hybrid JSON Logging
-
-Tabel maintenance_logs menggunakan pendekatan hibrida. Data inti (User, Aset, Lokasi) disimpan secara relasional (SQL), sedangkan data detail yang dinamis disimpan dalam format JSON:
-
-```sql
-`category` ENUM('perjalanan', 'pemeliharaan')
-`properties` JSON -- Menyimpan { "old_os": "v1.0", "new_os": "v2.0" }
-Pendekatan ini memungkinkan sistem mencatat atribut log yang berbeda-beda (misal: log mutasi vs log update firmware) dalam satu tabel yang sama secara efisien.
-```
