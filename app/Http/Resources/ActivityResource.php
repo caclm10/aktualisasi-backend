@@ -18,10 +18,10 @@ class ActivityResource extends JsonResource
             "id" => $this->id,
 
             "category" => $this->category?->value,
-            "type" => $this->type,
+            "property" => $this->property,
+            "old" => $this->old,
+            "new" => $this->new,
             "remarks" => $this->remarks,
-            "statusSnapshot" => $this->status_snapshot,
-            "properties" => $this->properties,
 
             // Relasi
             "userId" => $this->user_id,

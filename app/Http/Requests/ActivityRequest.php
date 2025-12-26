@@ -25,12 +25,12 @@ class ActivityRequest extends FormRequest
     {
         return [
             "category" => ["required", Rule::enum(ActivityCategory::class)],
-            "type" => ["required", "string", "max:255"],
+            "property" => ["required", "string", "max:255"],
+            "old" => ["required", "string", "max:255"],
+            "new" => ["required", "string", "max:255"],
             "assetId" => ["required", "exists:assets,id"],
-            "roomId" => ["nullable", "exists:rooms,id"],
+            "roomId" => ["required", "exists:rooms,id"],
             "remarks" => ["nullable", "string"],
-            "statusSnapshot" => ["nullable", "string", "max:255"],
-            "properties" => ["nullable", "array"],
         ];
     }
 }

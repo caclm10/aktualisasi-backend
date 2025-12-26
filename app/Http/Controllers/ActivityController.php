@@ -28,11 +28,10 @@ class ActivityController extends Controller
 
         if ($search = $request->input("search")) {
             $query->where(function ($q) use ($search) {
-                $q->where("type", "like", "%{$search}%")->orWhere(
-                    "remarks",
-                    "like",
-                    "%{$search}%",
-                );
+                $q->where("property", "like", "%{$search}%")
+                    ->orWhere("old", "like", "%{$search}%")
+                    ->orWhere("new", "like", "%{$search}%")
+                    ->orWhere("remarks", "like", "%{$search}%");
             });
         }
 
@@ -84,26 +83,22 @@ class ActivityController extends Controller
 
             $activity = new Activity([
                 "category" => $validated["category"],
-                "type" => $validated["type"],
+                "property" => $validated["property"],
+                "old" => $validated["old"],
+                "new" => $validated["new"],
                 "remarks" => $validated["remarks"] ?? null,
-                "status_snapshot" => $validated["statusSnapshot"] ?? null,
-                "properties" => $validated["properties"] ?? null,
             ]);
 
             $activity->user()->associate($request->user());
             $activity->asset()->associate($asset);
+            $activity->room_id = $validated["roomId"];
 
-            if (isset($validated["roomId"])) {
-                $activity->room_id = $validated["roomId"];
-
-                // Jika kategori adalah Perjalanan (mutasi), update lokasi asset
-                if (
-                    $validated["category"] ===
-                    ActivityCategory::Perjalanan->value
-                ) {
-                    $asset->room_id = $validated["roomId"];
-                    $asset->save();
-                }
+            // Jika kategori adalah Perjalanan (mutasi), update lokasi asset
+            if (
+                $validated["category"] === ActivityCategory::Perjalanan->value
+            ) {
+                $asset->room_id = $validated["roomId"];
+                $asset->save();
             }
 
             $activity->save();
@@ -148,10 +143,10 @@ class ActivityController extends Controller
 
         $activity->fill([
             "category" => $validated["category"],
-            "type" => $validated["type"],
+            "property" => $validated["property"],
+            "old" => $validated["old"],
+            "new" => $validated["new"],
             "remarks" => $validated["remarks"] ?? null,
-            "status_snapshot" => $validated["statusSnapshot"] ?? null,
-            "properties" => $validated["properties"] ?? null,
         ]);
 
         if (
@@ -162,9 +157,7 @@ class ActivityController extends Controller
             $activity->asset()->associate($asset);
         }
 
-        if (isset($validated["roomId"])) {
-            $activity->room_id = $validated["roomId"];
-        }
+        $activity->room_id = $validated["roomId"];
 
         $activity->save();
 
