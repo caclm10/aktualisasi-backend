@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Enums\AssetComplianceStatus;
+use App\Models\Enums\AssetBaseline;
 use App\Models\Enums\AssetCondition;
 use App\Traits\HasNanoID;
 use Illuminate\Database\Eloquent\Model;
@@ -27,7 +27,7 @@ class Asset extends Model
         "port_acs_vlan",
         "port_trunk",
         "port_capacity",
-        "compliance_status",
+        "baseline",
 
         "os_version",
 
@@ -41,7 +41,7 @@ class Asset extends Model
 
     protected $casts = [
         "condition" => AssetCondition::class,
-        "compliance_status" => AssetComplianceStatus::class,
+        "baseline" => AssetBaseline::class,
     ];
 
     public function room(): BelongsTo

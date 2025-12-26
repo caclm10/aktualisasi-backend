@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Enums\AssetComplianceStatus;
+use App\Models\Enums\AssetBaseline;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -72,10 +72,7 @@ class AssetRequest extends FormRequest
             "portCapacity" => ["nullable", "string", "max:255"],
             "portTrunk" => ["nullable", "string", "max:255"],
             "osVersion" => ["nullable", "string", "max:255"],
-            "complianceStatus" => [
-                "nullable",
-                Rule::enum(AssetComplianceStatus::class),
-            ],
+            "baseline" => [Rule::enum(AssetBaseline::class)],
             "eosDate" => ["nullable", "date"],
             "purchaseYear" => [
                 "nullable",

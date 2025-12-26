@@ -155,7 +155,6 @@ class AssetController extends Controller
             "os_version" => $data["osVersion"],
             "eos_date" => $data["eosDate"],
             "purchase_year" => $data["purchaseYear"],
-            "compliance_status" => $data["complianceStatus"],
         ];
     }
 }

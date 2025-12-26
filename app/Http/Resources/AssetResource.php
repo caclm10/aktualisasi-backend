@@ -38,7 +38,7 @@ class AssetResource extends JsonResource
             "portCapacity" => $this->port_capacity,
             "portTrunk" => $this->port_trunk,
             "osVersion" => $this->os_version,
-            "complianceStatus" => $this->compliance_status,
+            "baseline" => $this->baseline,
 
             // Date formatting: Mengubah object Carbon menjadi ISO 8601 String
             // Operator '?' digunakan untuk safety jika datanya null

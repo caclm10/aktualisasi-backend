@@ -2,7 +2,7 @@
 
 namespace App\Models\Enums;
 
-enum AssetComplianceStatus: string
+enum AssetBaseline: string
 {
     case Sesuai = "sesuai";
     case TidakSesuai = "tidak sesuai";

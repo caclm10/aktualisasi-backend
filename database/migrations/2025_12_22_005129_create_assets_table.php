@@ -36,7 +36,7 @@ return new class extends Migration {
             $table->string("port_trunk")->nullable();
             $table->string("port_capacity")->nullable();
             $table
-                ->enum("compliance_status", [
+                ->enum("baseline", [
                     "sesuai",
                     "tidak sesuai",
                     "pengecualian", // jika ada dispensasi

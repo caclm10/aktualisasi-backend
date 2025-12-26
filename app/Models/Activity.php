@@ -11,17 +11,9 @@ class Activity extends Model
 {
     use HasNanoID;
 
-    protected $fillable = [
-        "category",
-        "type",
-        "remarks",
-        "status_snapshot",
-        "properties",
-    ];
+    protected $fillable = ["category", "property", "old", "new", "remarks"];
 
     protected $casts = [
-        "properties" => "array",
-
         "category" => ActivityCategory::class,
     ];
 

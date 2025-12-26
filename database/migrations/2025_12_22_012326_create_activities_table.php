@@ -20,13 +20,13 @@ return new class extends Migration {
 
             $table->enum("category", ["perjalanan", "pemeliharaan"]);
 
-            $table->string("type");
+            $table->string("property");
 
-            $table->string("remarks")->nullable();
+            $table->string("old");
 
-            $table->string("status_snapshot")->nullable();
+            $table->string("new");
 
-            $table->json("properties")->nullable();
+            $table->text("remarks")->nullable();
 
             $table->timestamps();
         });
