@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\AssetActivityController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AssetImageController;
+use App\Http\Controllers\AssetMaintenanceController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
@@ -19,6 +21,11 @@ Route::middleware(["auth:sanctum"])->group(function () {
         "destroy",
     ]);
 
+    Route::apiResource(
+        "assets.activities",
+        AssetActivityController::class,
+    )->only(["index"]);
+
     // Asset Image Routes
     Route::post("assets/{asset}/image", [
         AssetImageController::class,
@@ -28,6 +35,11 @@ Route::middleware(["auth:sanctum"])->group(function () {
         AssetImageController::class,
         "destroy",
     ]);
+
+    Route::post(
+        "assets/{asset}/maintenance",
+        AssetMaintenanceController::class,
+    );
 
     // Activity Routes
     Route::apiResource("activities", ActivityController::class)->only([

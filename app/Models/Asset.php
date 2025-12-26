@@ -48,4 +48,9 @@ class Asset extends Model
     {
         return $this->belongsTo(Room::class);
     }
+
+    public function activities(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Activity::class);
+    }
 }
