@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\ForeignIdColumnDefinition;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -47,6 +49,11 @@ class AppServiceProvider extends ServiceProvider
                     "length" => $length, // Panjang harus sama dengan PK tabel induk (21)
                 ]),
             );
+        });
+
+        Gate::define("viewApiDocs", function (User $user) {
+            // Sementara
+            return true;
         });
     }
 }
