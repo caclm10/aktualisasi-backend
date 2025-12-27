@@ -8,5 +8,7 @@ Route::get("/", function () {
     return view("welcome");
 });
 
-Route::post("/login", LoginController::class);
-Route::delete("/logout", LogoutController::class);
+Route::prefix("api")->group(function () {
+    Route::post("login", LoginController::class);
+    Route::delete("logout", LogoutController::class);
+});
