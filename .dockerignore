@@ -1,0 +1,23 @@
+# --- Dependencies ---
+/vendor
+/node_modules
+.git
+.gitignore
+
+# --- Secrets ---
+.env
+.env.production
+
+# --- Laravel Storage & Cache ---
+# Kita tidak mau log atau cache lokal masuk ke server
+/storage/logs/*.log
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/*.key
+
+# --- Tests & Config ---
+/tests
+/phpunit.xml
+Dockerfile
+docker-compose.yml
