@@ -20,6 +20,28 @@ class DatabaseSeeder extends Seeder
         //     "email" => "test@example.com",
         // ]);
 
-        $this->call([OfficeSeeder::class, AssetSeeder::class]);
+        $demoUsers = [
+            ["name" => "Budi Santoso", "email" => "budi@demo.com"],
+            ["name" => "Siti Rahayu", "email" => "siti@demo.com"],
+            ["name" => "Ahmad Fauzi", "email" => "ahmad@demo.com"],
+            ["name" => "Dewi Lestari", "email" => "dewi@demo.com"],
+            ["name" => "Andi Wijaya", "email" => "andi@demo.com"],
+            ["name" => "Rina Kusuma", "email" => "rina@demo.com"],
+            ["name" => "Hendra Pratama", "email" => "hendra@demo.com"],
+        ];
+
+        foreach ($demoUsers as $userData) {
+            User::create([
+                "name" => $userData["name"],
+                "email" => $userData["email"],
+                "password" => bcrypt("demo1234"),
+            ]);
+        }
+
+        $this->call([
+            OfficeSeeder::class,
+            AssetSeeder::class,
+            ActivitySeeder::class,
+        ]);
     }
 }
