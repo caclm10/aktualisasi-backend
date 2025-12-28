@@ -28,6 +28,8 @@ return new class extends Migration {
 
             $table->text("remarks")->nullable();
 
+            $table->timestamp("performed_at");
+
             $table->timestamps();
         });
     }

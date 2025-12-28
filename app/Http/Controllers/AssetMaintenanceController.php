@@ -32,6 +32,7 @@ class AssetMaintenanceController extends Controller
             ],
             "new" => ["required", "string", "max:255"],
             "remarks" => ["nullable", "string"],
+            "performedAt" => ["nullable", "date"],
         ]);
 
         $property = \Str::snake($validated["property"]);
@@ -68,6 +69,7 @@ class AssetMaintenanceController extends Controller
                 "old" => $oldValue,
                 "new" => $newValue,
                 "remarks" => $validated["remarks"] ?? null,
+                "performed_at" => $validated["performedAt"] ?? now(),
             ]);
 
             $activity->user()->associate($request->user());

@@ -26,6 +26,7 @@ class AssetMutationController extends Controller
         $validated = $request->validate([
             "roomId" => ["required", "exists:rooms,id"],
             "remarks" => ["nullable", "string"],
+            "performedAt" => ["nullable", "date"],
         ]);
 
         $newRoomId = $validated["roomId"];
@@ -65,6 +66,7 @@ class AssetMutationController extends Controller
                 "old" => $oldRoomName,
                 "new" => $newRoomName,
                 "remarks" => $validated["remarks"] ?? null,
+                "performed_at" => $validated["performedAt"] ?? now(),
             ]);
 
             $activity->user()->associate($request->user());

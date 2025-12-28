@@ -22,6 +22,9 @@ class ActivityResource extends JsonResource
             "old" => $this->old,
             "new" => $this->new,
             "remarks" => $this->remarks,
+            "performedAt" => $this->performed_at
+                ? \Date::parse($this->performed_at)->toIso8601String()
+                : null,
 
             // Relasi
             "userId" => $this->user_id,

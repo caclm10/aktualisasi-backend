@@ -11,10 +11,18 @@ class Activity extends Model
 {
     use HasNanoID;
 
-    protected $fillable = ["category", "property", "old", "new", "remarks"];
+    protected $fillable = [
+        "category",
+        "property",
+        "old",
+        "new",
+        "remarks",
+        "performed_at",
+    ];
 
     protected $casts = [
         "category" => ActivityCategory::class,
+        "performed_at" => "datetime",
     ];
 
     public function user(): BelongsTo
