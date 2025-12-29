@@ -31,14 +31,14 @@ class AssetImageController extends Controller
 
         // Hapus image lama jika ada
         if ($asset->image_url) {
-            $oldPath = str_replace("/storage/", "", $asset->image_url);
+            $oldPath = str_replace("/files/", "", $asset->image_url);
             \Storage::disk("public")->delete($oldPath);
         }
 
         // Upload image baru
         $path = $request->file("image")->store("assets", "public");
 
-        $asset->image_url = "/storage/" . $path;
+        $asset->image_url = "/files/" . $path;
         $asset->save();
 
         $asset->load("room.office");
