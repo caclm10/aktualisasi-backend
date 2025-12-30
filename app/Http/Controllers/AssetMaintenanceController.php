@@ -19,7 +19,7 @@ class AssetMaintenanceController extends Controller
     /**
      * Menambah aktivitas pemeliharaan pada aset.
      *
-     * Mencatat perubahan pada Versi OS, Kondisi, atau Baseline.
+     * Mencatat perubahan pada Serial Number, Versi OS, Kondisi, atau Baseline.
      * Hanya satu properti yang dapat diubah dalam satu waktu.
      */
     public function __invoke(Request $request, Asset $asset): JsonResponse
@@ -28,12 +28,26 @@ class AssetMaintenanceController extends Controller
             "property" => [
                 "required",
                 "string",
-                Rule::in(["osVersion", "condition", "baseline"]),
+                Rule::in([
+                    "serialNumber",
+                    "osVersion",
+                    "condition",
+                    "baseline",
+                ]),
             ],
             "new" => ["required", "string", "max:255"],
             "remarks" => ["nullable", "string"],
             "performedAt" => ["nullable", "date"],
         ]);
+
+        // Validasi unique untuk serial number
+        if ($validated["property"] === "serialNumber") {
+            $request->validate([
+                "new" => [
+                    Rule::unique("assets", "serial_number")->ignore($asset->id),
+                ],
+            ]);
+        }
 
         $property = \Str::snake($validated["property"]);
         $newValue = $validated["new"];
