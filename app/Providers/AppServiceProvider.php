@@ -55,5 +55,9 @@ class AppServiceProvider extends ServiceProvider
             // Sementara
             return true;
         });
+
+        if ($this->app->environment("production")) {
+            \URL::forceScheme("https");
+        }
     }
 }
