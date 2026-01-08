@@ -16,9 +16,9 @@ class ActivitySeeder extends Seeder
      */
     public function run(): void
     {
-        $assets = Asset::with("room")->get();
+        $assets = Asset::with("room.office")->get();
         $users = User::all();
-        $rooms = Room::all();
+        $rooms = Room::with("office")->get();
 
         if ($assets->isEmpty()) {
             $this->command->warn(
@@ -66,8 +66,26 @@ class ActivitySeeder extends Seeder
         $counter = 0;
 
         foreach ($assets as $asset) {
-            // Setiap asset mendapat 1-3 aktivitas
-            $activityCount = rand(1, 3);
+            // Track current state untuk setiap asset
+            $currentRoomId = $asset->room_id;
+            $currentRoom = $asset->room;
+            $currentOsVersion = $asset->os_version;
+            $currentCondition = $asset->condition?->value ?? "baik";
+            $currentBaseline = $asset->baseline?->value ?? "belum dicek";
+
+            // Setiap asset mendapat 0 atau 1 aktivitas (agar total tidak melebihi jumlah aset)
+            $activityCount = rand(0, 1);
+
+            // Generate tanggal yang berurutan (dari yang paling lama)
+            $dates = [];
+            for ($i = 0; $i < $activityCount; $i++) {
+                $dates[] = now()
+                    ->subDays(rand(1 + $i * 100, 100 + $i * 100))
+                    ->subHours(rand(0, 23))
+                    ->subMinutes(rand(0, 59));
+            }
+            // Sort dari paling lama ke terbaru
+            usort($dates, fn($a, $b) => $a->timestamp <=> $b->timestamp);
 
             for ($i = 0; $i < $activityCount; $i++) {
                 // Random category
@@ -75,11 +93,7 @@ class ActivitySeeder extends Seeder
                     ? ActivityCategory::Pemeliharaan
                     : ActivityCategory::Perjalanan;
 
-                // Generate random date dalam 1 tahun terakhir
-                $performedAt = now()
-                    ->subDays(rand(1, 365))
-                    ->subHours(rand(0, 23))
-                    ->subMinutes(rand(0, 59));
+                $performedAt = $dates[$i];
 
                 if ($category === ActivityCategory::Pemeliharaan) {
                     // Aktivitas pemeliharaan
@@ -88,31 +102,34 @@ class ActivitySeeder extends Seeder
                     ];
 
                     if ($property === "os_version") {
-                        $old = $osVersions[array_rand($osVersions)];
+                        $old =
+                            $currentOsVersion ??
+                            $osVersions[array_rand($osVersions)];
                         $new = $osVersions[array_rand($osVersions)];
-                    } elseif ($property === "condition") {
-                        $old = $conditions[array_rand($conditions)];
-                        $new = $conditions[array_rand($conditions)];
-                    } else {
-                        $old = $baselines[array_rand($baselines)];
-                        $new = $baselines[array_rand($baselines)];
-                    }
-
-                    // Pastikan old != new
-                    while ($old === $new) {
-                        if ($property === "os_version") {
+                        while ($old === $new) {
                             $new = $osVersions[array_rand($osVersions)];
-                        } elseif ($property === "condition") {
+                        }
+                        $currentOsVersion = $new;
+                    } elseif ($property === "condition") {
+                        $old = $currentCondition;
+                        $new = $conditions[array_rand($conditions)];
+                        while ($old === $new) {
                             $new = $conditions[array_rand($conditions)];
-                        } else {
+                        }
+                        $currentCondition = $new;
+                    } else {
+                        $old = $currentBaseline;
+                        $new = $baselines[array_rand($baselines)];
+                        while ($old === $new) {
                             $new = $baselines[array_rand($baselines)];
                         }
+                        $currentBaseline = $new;
                     }
 
                     Activity::create([
                         "user_id" => $users->random()->id,
                         "asset_id" => $asset->id,
-                        "room_id" => $asset->room_id,
+                        "room_id" => $currentRoomId,
                         "category" => $category,
                         "property" => $property,
                         "old" => $old,
@@ -125,16 +142,16 @@ class ActivitySeeder extends Seeder
                     ]);
                 } else {
                     // Aktivitas perjalanan/mutasi
-                    $oldRoom = $asset->room;
+                    $oldRoom = $currentRoom;
                     $newRoom = $rooms
-                        ->where("id", "!=", $asset->room_id)
+                        ->where("id", "!=", $currentRoomId)
                         ->random();
 
                     $oldRoomName = $oldRoom
-                        ? "{$oldRoom->name} - Lantai {$oldRoom->floor}"
+                        ? "{$oldRoom->name} - {$oldRoom->office->name} (Lantai {$oldRoom->floor})"
                         : "";
                     $newRoomName = $newRoom
-                        ? "{$newRoom->name} - Lantai {$newRoom->floor}"
+                        ? "{$newRoom->name} - {$newRoom->office->name} (Lantai {$newRoom->floor})"
                         : "";
 
                     Activity::create([
@@ -149,10 +166,21 @@ class ActivitySeeder extends Seeder
                             $mutationRemarks[array_rand($mutationRemarks)],
                         "performed_at" => $performedAt,
                     ]);
+
+                    // Update current state setelah mutasi
+                    $currentRoomId = $newRoom->id;
+                    $currentRoom = $newRoom;
                 }
 
                 $counter++;
             }
+
+            // Update asset ke lokasi terakhir setelah semua aktivitas
+            $asset->room_id = $currentRoomId;
+            $asset->os_version = $currentOsVersion;
+            $asset->condition = $currentCondition;
+            $asset->baseline = $currentBaseline;
+            $asset->save();
         }
 
         $this->command->info(
